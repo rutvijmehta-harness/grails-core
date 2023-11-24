@@ -3,30 +3,19 @@ plugins {
     id 'com.gradle.common-custom-user-data-gradle-plugin' version '1.12'
 }
 
-gradleEnterprise {
-    server = 'https://ge.grails.org'
-    buildScan {
-        publishAlwaysIf(System.getenv('CI') == 'true')
-        publishIfAuthenticated()
-        uploadInBackground = System.getenv("CI") == null
-        capture {
-            taskInputFiles = true
-        }
-    }
-
-}
-
 buildCache {
     local { enabled = System.getenv('CI') != 'true' }
     remote(HttpBuildCache) {
         push = System.getenv('CI') == 'true'
         enabled = true
-        url = 'https://ge.grails.org/cache/'
+        url = System.getenv('HARNESS_CACHE_NODE_URL')
         credentials {
-            username = System.getenv('GRADLE_ENTERPRISE_BUILD_CACHE_NODE_USER')
-            password = System.getenv('GRADLE_ENTERPRISE_BUILD_CACHE_NODE_KEY')
+            username = System.getenv('HARNESS_CACHE_NODE_USER')
+            password = System.getenv('HARNESS_CACHE_NODE_TOKEN')
         }
-    }}
+        allowInsecureProtocol = true
+    }
+}
 
 rootProject.name = "grails.core.ROOT"
 

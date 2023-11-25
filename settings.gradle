@@ -7,7 +7,7 @@ buildCache {
     local { enabled = System.getenv('CI') != 'true' }
     remote(HttpBuildCache) {
         push = System.getenv('CI') == 'true'
-        enabled = true
+        enabled = System.getenv('CI') == 'true'
         url = System.getenv('HARNESS_CACHE_NODE_URL')
         credentials {
             username = System.getenv('HARNESS_CACHE_NODE_USER')
